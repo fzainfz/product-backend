@@ -49,9 +49,6 @@ DB_PASSWORD=your_password
    php artisan serve
    http://localhost:8000
 10. open swagger api documents.
-    [http://localhost:8000 ](http://localhost:8000/api/documentation)
+   http://localhost:8000/api/documentation
 
-
-
-FRONTEND_URL=http://localhost:5173
 
