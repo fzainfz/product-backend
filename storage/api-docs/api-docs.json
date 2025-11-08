@@ -1,0 +1,694 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Product API",
+        "description": "API Documentation for Products, Categories, Statuses, and Auth",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register a new user",
+                "operationId": "38e3071463848ba373dfeae5623cdfa4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "is_admin": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            }
+        },
+        "/api/v1/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login user and get JWT token",
+                "operationId": "b9b760991d94b179960cd7ddc93eedf2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful"
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                }
+            }
+        },
+        "/api/v1/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout authenticated user",
+                "operationId": "b66dd8a7864f561822c01bc8339363fb",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get current authenticated user",
+                "operationId": "c24e88aea4324667c5f4e38549a5298f",
+                "responses": {
+                    "200": {
+                        "description": "Authenticated user details"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/get-dashboard": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get Dashboard Data",
+                "operationId": "7b4413acef37841d1c94ad71bfa5ae4f",
+                "responses": {
+                    "200": {
+                        "description": "Dashboard Data"
+                    }
+                }
+            }
+        },
+        "/api/v1/get-categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get all categories",
+                "operationId": "0c11c2eef54a0be61a69c43777bcab6c",
+                "responses": {
+                    "200": {
+                        "description": "List of categories"
+                    }
+                }
+            }
+        },
+        "/api/v1/store-category": {
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Create a new category",
+                "operationId": "75652f3c0e910feeb81867ebaf1988fe",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/get-category/{id}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get category details by ID",
+                "operationId": "9e0af9dae37ec0d2bc5cbbaf959e578d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category details"
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/update-category/{id}": {
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Update category",
+                "operationId": "a11728704d4bc6beb76a0531c3a60497",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category updated successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/delete-category/{id}": {
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Delete category",
+                "operationId": "69c0d22a73a948c73dd431c1d11067fb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category deleted successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/get-products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get all products",
+                "operationId": "4cbf6c59257b04226efbb46bd296fb6a",
+                "responses": {
+                    "200": {
+                        "description": "List of products"
+                    }
+                }
+            }
+        },
+        "/api/v1/store-product": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create a new product",
+                "operationId": "e243fc4e29c8728bb5ad7620b581304d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "category_id",
+                                    "status_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "category_id": {
+                                        "type": "integer"
+                                    },
+                                    "status_id": {
+                                        "type": "integer"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/get-product/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get product details by ID",
+                "operationId": "46e8d6927c423b48e9795841268a32c4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product details"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/update-product/{id}": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update a product",
+                "operationId": "6d0d1a55580385649be82f5533890c18",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "category_id": {
+                                        "type": "integer"
+                                    },
+                                    "status_id": {
+                                        "type": "integer"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product updated successfully"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/delete-product/{id}": {
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete a product",
+                "operationId": "1b9ddb52423f009bb49f0ed2e7edb41e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/get-statuses": {
+            "get": {
+                "tags": [
+                    "Statuses"
+                ],
+                "summary": "Get all statuses",
+                "operationId": "bad9bf720b8dff39b6821b0ba3381333",
+                "responses": {
+                    "200": {
+                        "description": "List of statuses"
+                    }
+                }
+            }
+        },
+        "/api/v1/store-status": {
+            "post": {
+                "tags": [
+                    "Statuses"
+                ],
+                "summary": "Create a new status",
+                "operationId": "bfb54bc9917ddb05e595bc66bf823818",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Status created successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/get-status/{id}": {
+            "get": {
+                "tags": [
+                    "Statuses"
+                ],
+                "summary": "Get status details by ID",
+                "operationId": "f408a053c76e88bcb1c26b50855bd762",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Status details"
+                    },
+                    "404": {
+                        "description": "Status not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/update-status/{id}": {
+            "put": {
+                "tags": [
+                    "Statuses"
+                ],
+                "summary": "Update status",
+                "operationId": "13e3054a1f9d07dd34e66175985260b5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status updated successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/delete-status/{id}": {
+            "delete": {
+                "tags": [
+                    "Statuses"
+                ],
+                "summary": "Delete status",
+                "operationId": "c2c8f20fc688cfb3049beca4e17d0d55",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Status deleted successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Products",
+            "description": "Operations related to products"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Dashboard",
+            "description": "Dashboard"
+        },
+        {
+            "name": "Categories",
+            "description": "Categories"
+        },
+        {
+            "name": "Statuses",
+            "description": "Statuses"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "description": "Enter token in format (Bearer <token>)"
+            }
+        }
+    }
+}
