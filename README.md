@@ -7,6 +7,7 @@ A brief description of your project goes here.
 ## Requirements
 
 - php: ^8.2,
+- laravel/framework: ^12.0
 - Composer
 - MySQL
 
@@ -45,10 +46,12 @@ DB_PASSWORD=your_password
    php artisan storage:link
 8. Generate Swagger Link
    php artisan l5-swagger:generate
-9. Run the development server
+9. Generate JWT Secret Key
+   php artisan jwt:secret
+10. Run the development server
    php artisan serve
    http://localhost:8000
-10. open swagger api documents.
+11. open swagger api documents.
    http://localhost:8000/api/documentation
 
 
